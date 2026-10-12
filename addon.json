@@ -1,0 +1,16 @@
+{
+    "title": "Soul Transfer",
+    "description": "Transfer your soul to a nearby NPC upon death with ethereal strands and rapid possession transitions.",
+    "type": "ServerContent",
+    "tags": [
+        "fun",
+        "roleplay"
+    ],
+    "ignore": [
+        "*.md",
+        "*.py",
+        "*.txt",
+        ".git/*",
+        ".gitignore"
+    ]
+}
