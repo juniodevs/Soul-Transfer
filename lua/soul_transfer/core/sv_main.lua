@@ -89,6 +89,12 @@ hook.Add("PlayerDeath", "SoulTransfer_OnPlayerDeath", function(victim, inflictor
         end
     end)
 
+    local cv_slomo = GetConVar("soultransfer_slomo")
+    if game.SinglePlayer() and cv_slomo and cv_slomo:GetBool() then
+        game.SetTimeScale(0.2)
+        RunConsoleCommand("host_timescale", "0.2")
+    end
+
     net.Start("SoulTransfer_StartSpectral")
         net.WriteVector(deathPos)
         net.WriteFloat(timeLimit)
@@ -132,7 +138,8 @@ net.Receive("SoulTransfer_RequestPossess", function(len, ply)
     ply:SetNWEntity("ST_TargetEntity", targetNPC)
 
     local duration = math.Clamp(GetConVar("soultransfer_transfer_duration"):GetFloat(), 0.2, 1.5)
-    local timerDuration = duration
+    local cv_slomo = GetConVar("soultransfer_slomo")
+    local timerDuration = (game.SinglePlayer() and cv_slomo and cv_slomo:GetBool()) and (duration * 0.2) or duration
 
     net.Start("SoulTransfer_BeginFlight")
         net.WriteEntity(targetNPC)
