@@ -1,0 +1,67 @@
+==================================================
+ENGLISH VERSION
+==================================================
+
+[h1]Soul Transfer[/h1]
+
+When you die, your soul leaves your body in third person and connects to living NPCs nearby. Look at any NPC, confirm with left click or E, and you fly straight into their body and keep playing as them.
+
+You take over their model, weapons, current health, and skin.
+
+[h2]How it works[/h2]
+[list]
+[*] Die anywhere on the map with NPCs nearby.
+[*] Your camera pulls back above your ragdoll and draws energy lines to living NPCs.
+[*] Aim at the NPC you want and press [Left Click] or [E].
+[*] Your view snaps into their body with a quick blur transition.
+[*] You wake up playing as that NPC with whatever weapon they were holding.
+[*] If there are no NPCs around or time runs out, normal death happens as usual.
+[/list]
+
+[h2]Settings[/h2]
+You can change the range, time limit, slow motion, and visual effects in:
+[b]Spawnmenu > Utilities > Soul Transfer > Settings[/b]
+
+[h2]Console commands[/h2]
+[code]
+soultransfer_enabled 1          // Turn mod on or off
+soultransfer_range 2500         // How far you can reach NPCs
+soultransfer_time_limit 8       // Seconds to pick an NPC
+soultransfer_slomo 1            // Slow motion while picking (singleplayer only)
+soultransfer_preserve_health 1  // Keep the NPC's current health
+soultransfer_allow_hostiles 1   // Allow entering Combine, Zombies, etc
+[/code]
+
+==================================================
+VERSÃO EM PORTUGUÊS
+==================================================
+
+[h1]Soul Transfer[/h1]
+
+Quando você morre, sua alma sai do corpo em terceira pessoa e se conecta aos NPCs vivos por perto. Mire no NPC que quiser, confirme no clique ou na tecla E, e você assume o corpo dele na hora para continuar jogando.
+
+Você herda o modelo, as armas que ele estava segurando, a vida atual e as skins.
+
+[h2]Como funciona[/h2]
+[list]
+[*] Morra no mapa com NPCs por perto.
+[*] A câmera sobe sobre o seu cadáver e mostra feixes de energia ligados aos NPCs vivos.
+[*] Mire no NPC escolhido e aperte [Botão Esquerdo] ou [E].
+[*] A câmera viaja até o corpo com um efeito rápido de desfoque.
+[*] Você acorda no controle do NPC com a arma dele na mão.
+[*] Se não tiver nenhum NPC por perto ou o tempo acabar, você morre normalmente.
+[/list]
+
+[h2]Configurações[/h2]
+Dá para mudar alcance, tempo limite, câmera lenta e efeitos visuais no menu:
+[b]Spawnmenu > Utilitários > Soul Transfer > Configurações[/b]
+
+[h2]Comandos de console[/h2]
+[code]
+soultransfer_enabled 1          // Liga ou desliga o mod
+soultransfer_range 2500         // Alcance para achar NPCs
+soultransfer_time_limit 8       // Segundos para escolher antes de morrer
+soultransfer_slomo 1            // Câmera lenta ao escolher (só no singleplayer)
+soultransfer_preserve_health 1  // Começar com a vida que o NPC tinha
+soultransfer_allow_hostiles 1   // Deixar entrar em Combine, Zumbis, etc
+[/code]
