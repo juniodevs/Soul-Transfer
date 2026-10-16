@@ -19,6 +19,7 @@ if SERVER then
     include("soul_transfer/core/sh_lang.lua")
     include("soul_transfer/core/sv_main.lua")
     include("soul_transfer/mechanics/sv_targeting.lua")
+    include("soul_transfer/mechanics/sv_appearance.lua")
     include("soul_transfer/mechanics/sv_possession.lua")
 
     print("[SoulTransfer] v" .. SoulTransfer.Version .. " carregado no servidor.")
