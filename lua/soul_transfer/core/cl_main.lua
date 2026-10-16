@@ -48,12 +48,6 @@ net.Receive("SoulTransfer_StartSpectral", function()
         targetLookAng = detachStartAng
     end
 
-    local cv_slomo = GetConVar("soultransfer_slomo")
-    if game.SinglePlayer() and cv_slomo and cv_slomo:GetBool() then
-        game.SetTimeScale(0.2)
-        RunConsoleCommand("host_timescale", "0.2")
-    end
-
     SoulTransfer.Audio.StartSpectralLoop()
 end)
 
