@@ -8,6 +8,7 @@ CreateConVar("soultransfer_slomo", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPL
 CreateConVar("soultransfer_preserve_health", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Mantem o HP atual do NPC possuido no jogador")
 CreateConVar("soultransfer_allow_hostiles", "1", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Permite possuir NPCs hostis")
 CreateConVar("soultransfer_transfer_duration", "0.5", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Duracao do mergulho rapido da alma ate o corpo do NPC em segundos")
+CreateConVar("soultransfer_debug", "0", {FCVAR_ARCHIVE, FCVAR_NOTIFY, FCVAR_REPLICATED}, "Logs de diagnostico da troca de corpo no console")
 
 if CLIENT then
     CreateClientConVar("soultransfer_cl_blur", "1", true, false, "Ativa efeito de motion blur e distorcao de tela")
