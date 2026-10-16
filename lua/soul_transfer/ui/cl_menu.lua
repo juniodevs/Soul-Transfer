@@ -48,7 +48,7 @@ hook.Add("PopulateToolMenu", "SoulTransfer_Menu", function()
         panel:ControlHelp(SoulTransfer.T("opt_cl_volume_help"))
 
         panel:Help("")
-        local resetBtn = panel:Button("Resetar Configurações Visuais")
+        local resetBtn = panel:Button(SoulTransfer.T("btn_reset_visuals"))
         resetBtn.DoClick = function()
             RunConsoleCommand("soultransfer_cl_hud", "1")
             RunConsoleCommand("soultransfer_cl_blur", "1")

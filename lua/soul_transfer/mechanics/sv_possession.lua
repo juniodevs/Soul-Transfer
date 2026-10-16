@@ -4,18 +4,18 @@ SoulTransfer.Possession = SoulTransfer.Possession or {}
 function SoulTransfer.Possession.TransferSoul(ply, npc)
     if not IsValid(ply) or not IsValid(npc) then return false end
 
-    SoulTransfer.Appearance.Log(ply, "TransferSoul iniciado: alvo=%s (%s) model=%s skin=%d",
+    SoulTransfer.Appearance.Log(ply, "TransferSoul started: target=%s (%s) model=%s skin=%d",
         npc:GetClass(), tostring(npc), npc:GetModel(), npc:GetSkin() or 0)
 
     if not SoulTransfer.Appearance.CaptureFromNPC(ply, npc) then
-        SoulTransfer.Appearance.Log(ply, "TransferSoul abortado: captura do corpo falhou (modelo invalido?).")
+        SoulTransfer.Appearance.Log(ply, "TransferSoul aborted: host body capture failed (invalid model?).")
         SoulTransfer.CancelSpectral(ply)
         return false
     end
 
     if not ply.ST_HostPlayermodel then
-        SoulTransfer.Appearance.Log(ply, "Sem playermodel vinculado para %s; aparencia do jogador mantida.", npc:GetModel())
-        ply:ChatPrint("[Soul Transfer] Nenhum playermodel equivalente a este NPC; sua aparencia foi mantida.")
+        SoulTransfer.Appearance.Log(ply, "No matching playermodel for %s; player appearance kept.", npc:GetModel())
+        ply:ChatPrint(SoulTransfer.T("msg_no_playermodel"))
     end
 
     local hostPos = npc:GetPos()
@@ -48,7 +48,7 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
     ply.ST_SuppressLoadout = false
     ply.NextSpawnTime = nil
 
-    SoulTransfer.Appearance.Log(ply, "Spawn concluido: alive=%s observerMode=%d model=%s",
+    SoulTransfer.Appearance.Log(ply, "Spawn complete: alive=%s observerMode=%d model=%s",
         tostring(ply:Alive()), ply:GetObserverMode(), tostring(ply:GetModel()))
 
     ply:SetPos(hostPos)
@@ -57,7 +57,7 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
     local applied = SoulTransfer.Appearance.Apply(ply)
     ply:SetupHands()
 
-    SoulTransfer.Appearance.Log(ply, "Apply apos Spawn: sucesso=%s model=%s skin=%d playermodel=%s",
+    SoulTransfer.Appearance.Log(ply, "Apply post-spawn: success=%s model=%s skin=%d playermodel=%s",
         tostring(applied), tostring(ply:GetModel()), ply:GetSkin(), tostring(ply.ST_HostPlayermodel))
 
     ply:SetNoDraw(false)
@@ -99,7 +99,7 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
         net.WriteVector(hostPos)
     net.Send(ply)
 
-    SoulTransfer.Appearance.Log(ply, "Possessao concluida: model=%s skin=%d alive=%s",
+    SoulTransfer.Appearance.Log(ply, "Possession complete: model=%s skin=%d alive=%s",
         ply:GetModel(), ply:GetSkin(), tostring(ply:Alive()))
 
     timer.Simple(0.1, function()
@@ -107,7 +107,7 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
 
         local pm = ply.ST_HostPlayermodel
         if pm and (ply:GetModel() ~= pm or (ply.ST_HostExact and ply:GetSkin() ~= (ply.ST_HostSkin or 0))) then
-            SoulTransfer.Appearance.Log(ply, "Verificacao 0.1s: aparencia divergiu (model=%s skin=%d, esperado=%s); reaplicando corpo do hospedeiro.",
+            SoulTransfer.Appearance.Log(ply, "0.1s check: appearance mismatch (model=%s skin=%d, expected=%s); reapplying host body.",
                 tostring(ply:GetModel()), ply:GetSkin(), pm)
             SoulTransfer.Appearance.Apply(ply)
             ply:SetupHands()

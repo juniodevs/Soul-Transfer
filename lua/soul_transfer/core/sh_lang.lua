@@ -2,6 +2,51 @@ SoulTransfer = SoulTransfer or {}
 SoulTransfer.Lang = SoulTransfer.Lang or {}
 
 local phrases = {
+    en = {
+        menu_title = "Settings",
+        menu_desc = "Soul Transfer mod options.",
+        cat_general = "General",
+        cat_client = "Visual & Audio",
+
+        opt_enabled = "Enable Soul Transfer",
+        opt_enabled_help = "Enables transferring to NPCs on death.",
+        opt_range = "Max Range",
+        opt_range_help = "Maximum distance in units to detect nearby NPCs.",
+        opt_time_limit = "Selection Time",
+        opt_time_limit_help = "Seconds allowed to pick an NPC before dying normally.",
+        opt_slomo = "Slow Motion (Singleplayer)",
+        opt_slomo_help = "Slows down time while choosing a target.",
+        opt_preserve_hp = "Keep NPC Health",
+        opt_preserve_hp_help = "Start in the new body with the health the NPC had.",
+        opt_allow_hostiles = "Allow Hostile NPCs",
+        opt_allow_hostiles_help = "Allows taking over Combine, Zombies, and other hostiles.",
+        opt_transfer_duration = "Transition Duration",
+        opt_transfer_duration_help = "Flight duration into the host body in seconds.",
+
+        opt_cl_blur = "Screen Effects",
+        opt_cl_blur_help = "Enables blur and distortion during transition.",
+        opt_cl_strands = "Soul Strands",
+        opt_cl_strands_help = "Shows energy strands connecting your corpse to living NPCs.",
+        opt_cl_strands_dark = "Dark Strands",
+        opt_cl_strands_dark_help = "Toggles between glowing strands or dark void strands.",
+        opt_cl_hud = "Show HUD",
+        opt_cl_hud_help = "Shows remaining time and target info.",
+        opt_cl_volume = "Sound Volume",
+        opt_cl_volume_help = "Volume for mod sound effects.",
+
+        btn_reset_visuals = "Reset Visual Settings",
+
+        hud_time_left = "TIME REMAINING: %.1fs",
+        hud_choose_target = "AIM AT NPC AND CLICK OR PRESS [E]",
+        hud_no_targets = "NO NEARBY NPCS FOUND",
+        hud_target_info = "TARGET: %s | HP: %d",
+        hud_transferring = "ENTERING HOST...",
+
+        msg_no_npcs = "[Soul Transfer] No NPCs in range (%du). Spawn an NPC to possess.",
+        msg_hosts_in_range = "[Soul Transfer] %d host(s) in range. Aim and click to transfer.",
+        msg_no_playermodel = "[Soul Transfer] No matching playermodel for this NPC; appearance kept.",
+        msg_admin_only = "[Soul Transfer] Admins only.",
+    },
     pt = {
         menu_title = "Configurações",
         menu_desc = "Opções do mod Soul Transfer.",
@@ -34,49 +79,18 @@ local phrases = {
         opt_cl_volume = "Volume dos Sons",
         opt_cl_volume_help = "Volume dos efeitos de som do mod.",
 
+        btn_reset_visuals = "Resetar Configurações Visuais",
+
         hud_time_left = "TEMPO RESTANTE: %.1fs",
         hud_choose_target = "MIRE NO NPC E CLIQUE OU APERTE [E]",
         hud_no_targets = "NENHUM NPC POR PERTO",
         hud_target_info = "ALVO: %s | VIDA: %d",
         hud_transferring = "ENTRANDO NO CORPO...",
-    },
-    en = {
-        menu_title = "Settings",
-        menu_desc = "Soul Transfer mod options.",
-        cat_general = "General",
-        cat_client = "Visual & Audio",
 
-        opt_enabled = "Enable Soul Transfer",
-        opt_enabled_help = "Enables transferring to NPCs on death.",
-        opt_range = "Max Range",
-        opt_range_help = "Maximum distance to detect nearby NPCs.",
-        opt_time_limit = "Selection Time",
-        opt_time_limit_help = "Seconds allowed to pick an NPC before dying normally.",
-        opt_slomo = "Slow Motion (Singleplayer)",
-        opt_slomo_help = "Slows down time while choosing a target.",
-        opt_preserve_hp = "Keep NPC Health",
-        opt_preserve_hp_help = "Start in the new body with the health the NPC had.",
-        opt_allow_hostiles = "Allow Hostile NPCs",
-        opt_allow_hostiles_help = "Allows taking over Combines, Zombies, and other hostiles.",
-        opt_transfer_duration = "Transition Duration",
-        opt_transfer_duration_help = "Flight duration into the host body in seconds.",
-
-        opt_cl_blur = "Screen Effects",
-        opt_cl_blur_help = "Enables blur and distortion during transition.",
-        opt_cl_strands = "Soul Beams",
-        opt_cl_strands_help = "Shows energy beams connecting your body to NPCs.",
-        opt_cl_strands_dark = "Dark Beams",
-        opt_cl_strands_dark_help = "Toggles between glowing beams or dark strands.",
-        opt_cl_hud = "Show HUD",
-        opt_cl_hud_help = "Shows remaining time and target info.",
-        opt_cl_volume = "Sound Volume",
-        opt_cl_volume_help = "Volume for mod sound effects.",
-
-        hud_time_left = "TIME REMAINING: %.1fs",
-        hud_choose_target = "AIM AT NPC AND CLICK OR PRESS [E]",
-        hud_no_targets = "NO NEARBY NPCS FOUND",
-        hud_target_info = "TARGET: %s | HP: %d",
-        hud_transferring = "ENTERING HOST...",
+        msg_no_npcs = "[Soul Transfer] Nenhum NPC no alcance (%du). Spawne um NPC para possuir.",
+        msg_hosts_in_range = "[Soul Transfer] %d hospedeiro(s) no alcance. Mirar e clicar para transferir.",
+        msg_no_playermodel = "[Soul Transfer] Nenhum playermodel equivalente a este NPC; sua aparencia foi mantida.",
+        msg_admin_only = "[Soul Transfer] Apenas administradores podem executar este comando.",
     }
 }
 

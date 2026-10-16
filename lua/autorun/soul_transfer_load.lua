@@ -22,7 +22,7 @@ if SERVER then
     include("soul_transfer/mechanics/sv_appearance.lua")
     include("soul_transfer/mechanics/sv_possession.lua")
 
-    print("[SoulTransfer] v" .. SoulTransfer.Version .. " carregado no servidor.")
+    print("[SoulTransfer] v" .. SoulTransfer.Version .. " loaded on server.")
 else
     include("soul_transfer/core/sh_config.lua")
     include("soul_transfer/core/sh_lang.lua")
@@ -34,5 +34,5 @@ else
     include("soul_transfer/ui/cl_menu.lua")
     include("soul_transfer/core/cl_main.lua")
 
-    print("[SoulTransfer] v" .. SoulTransfer.Version .. " carregado no cliente.")
+    print("[SoulTransfer] v" .. SoulTransfer.Version .. " loaded on client.")
 end

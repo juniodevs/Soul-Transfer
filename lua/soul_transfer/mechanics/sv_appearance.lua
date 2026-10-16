@@ -5,10 +5,10 @@ local RAW_PLAYER_SETMODEL = FindMetaTable("Player").SetModel
 local RAW_ENTITY_SETMODEL = FindMetaTable("Entity").SetModel
 
 local function DescribeFn(fn, label)
-    if type(fn) ~= "function" then return label .. "=ausente" end
+    if type(fn) ~= "function" then return label .. "=missing" end
 
     local ok, info = pcall(debug.getinfo, fn, "S")
-    if not ok or not info then return label .. "=indescritivel" end
+    if not ok or not info then return label .. "=undescribed" end
 
     if info.what == "C" then return label .. "=C (engine)" end
     return label .. "=Lua (" .. tostring(info.short_src) .. ":" .. tostring(info.linedefined) .. ")"
@@ -78,7 +78,7 @@ function SoulTransfer.Appearance.BuildModelIndex()
     indexSorted = target.sorted
     linkCache = {}
 
-    SoulTransfer.Appearance.Log(nil, "Index de playermodels: %d modelos validos catalogados.", #indexSorted)
+    SoulTransfer.Appearance.Log(nil, "Playermodel index: %d valid models cataloged.", #indexSorted)
 end
 
 local function CandidateInIndex(dir, name)
@@ -175,7 +175,7 @@ function SoulTransfer.Appearance.CaptureFromNPC(ply, npc)
     ply.ST_HostMaterial = npc:GetMaterial() or ""
     ply.ST_HostColor = npc:GetColor()
 
-    SoulTransfer.Appearance.Log(ply, "Corpo capturado de %s: model=%s playermodel=%s exact=%s skin=%d bgroups=%d scale=%.2f",
+    SoulTransfer.Appearance.Log(ply, "Body captured from %s: model=%s playermodel=%s exact=%s skin=%d bgroups=%d scale=%.2f",
         npc:GetClass(), model, tostring(ply.ST_HostPlayermodel), tostring(ply.ST_HostExact), ply.ST_HostSkin, table.Count(bodygroups), ply.ST_HostScale)
 
     return true
@@ -202,7 +202,7 @@ function SoulTransfer.Appearance.Apply(ply)
             if not ply.ST_SetModelDiagDone then
                 ply.ST_SetModelDiagDone = true
 
-                SoulTransfer.Appearance.Log(ply, "SetModel via metodo falhou (resultado=%s); tentativa via Entity raw: ok=%s err=%s resultado=%s",
+                SoulTransfer.Appearance.Log(ply, "Method SetModel failed (result=%s); raw Entity fallback: ok=%s err=%s result=%s",
                     tostring(after), tostring(okRaw), tostring(errRaw), tostring(afterRaw))
 
                 SoulTransfer.Appearance.Log(ply, "Metatables: %s | %s",
@@ -264,7 +264,7 @@ function SoulTransfer.Appearance.ClearHost(ply, restoreNow)
     end
 
     if hadHost then
-        SoulTransfer.Appearance.Log(ply, "Estado do corpo hospedeiro limpo (restoreNow=%s)", tostring(restoreNow == true))
+        SoulTransfer.Appearance.Log(ply, "Host body state cleared (restoreNow=%s)", tostring(restoreNow == true))
     end
 end
 
@@ -302,7 +302,7 @@ function SoulTransfer.Appearance.StartWatchdog(ply)
         local skinBad = ply.ST_HostExact and skin ~= (ply.ST_HostSkin or 0)
 
         if model ~= pm or skinBad then
-            SoulTransfer.Appearance.Log(ply, "Watchdog: aparencia divergiu (model=%s skin=%d, esperado=%s skin=%d); reaplicando corpo.",
+            SoulTransfer.Appearance.Log(ply, "Watchdog: appearance mismatch (model=%s skin=%d, expected=%s skin=%d); reapplying host body.",
                 tostring(model), skin, pm, ply.ST_HostSkin or 0)
             SoulTransfer.Appearance.Apply(ply)
         end
@@ -323,7 +323,7 @@ hook.Add("PlayerSetModel", "SoulTransfer_HostBody", function(ply)
     if not IsValid(ply) or not ply.ST_HostModel then return end
     if not ply.ST_HostPlayermodel then return end
 
-    SoulTransfer.Appearance.Log(ply, "PlayerSetModel interceptado: reaplicando playermodel %s.", ply.ST_HostPlayermodel)
+    SoulTransfer.Appearance.Log(ply, "PlayerSetModel intercepted: reapplying playermodel %s.", ply.ST_HostPlayermodel)
     SoulTransfer.Appearance.Apply(ply)
     return true
 end)
@@ -331,7 +331,7 @@ end)
 hook.Add("PlayerSpawn", "SoulTransfer_HostBodyReapply", function(ply)
     if not IsValid(ply) or not ply.ST_HostModel then return end
 
-    SoulTransfer.Appearance.Log(ply, "PlayerSpawn com corpo hospedeiro ativo; agendando reaplicacao.")
+    SoulTransfer.Appearance.Log(ply, "PlayerSpawn with active host body; scheduling reapply.")
 
     timer.Simple(0, function()
         if IsValid(ply) and ply:Alive() and ply.ST_HostModel then
@@ -367,7 +367,7 @@ concommand.Add("soultransfer_modelselftest", function(ply, cmd, args)
     local target
     if IsValid(ply) then
         if game.IsDedicated() and not ply:IsAdmin() then
-            ply:PrintMessage(HUD_PRINTCONSOLE, "[SoulTransfer] Apenas admin pode rodar este teste.")
+            ply:PrintMessage(HUD_PRINTCONSOLE, SoulTransfer.T("msg_admin_only"))
             return
         end
         target = ply
@@ -386,14 +386,14 @@ concommand.Add("soultransfer_modelselftest", function(ply, cmd, args)
     }
 
     local original = target:GetModel()
-    print(string.format("[SoulTransfer][Test] Modelo atual: %s (skin %d)",
+    print(string.format("[SoulTransfer][Test] Current model: %s (skin %d)",
         tostring(original), target:GetSkin()))
     print(string.format("[SoulTransfer][Test] Metatables: %s | %s",
         DescribeFn(RAW_PLAYER_SETMODEL, "Player.SetModel"),
         DescribeFn(RAW_ENTITY_SETMODEL, "Entity.SetModel")))
 
     SoulTransfer.Appearance.BuildModelIndex()
-    print(string.format("[SoulTransfer][Test] Playermodels validos catalogados: %d", #indexSorted))
+    print(string.format("[SoulTransfer][Test] Valid playermodels cataloged: %d", #indexSorted))
 
     for _, m in ipairs(tests) do
         local valid = util.IsValidModel(m)
@@ -406,12 +406,12 @@ concommand.Add("soultransfer_modelselftest", function(ply, cmd, args)
         local okRaw, errRaw = pcall(RAW_ENTITY_SETMODEL, target, m)
         local afterRaw = target:GetModel()
 
-        print(string.format("[SoulTransfer][Test] %s | playermodel vinculado=%s | IsValidModel=%s IsUseless=%s | metodo: err=%s modelo=%s MUDOU=%s | raw: err=%s modelo=%s MUDOU=%s",
+        print(string.format("[SoulTransfer][Test] %s | linked playermodel=%s | IsValidModel=%s IsUseless=%s | method: err=%s model=%s CHANGED=%s | raw: err=%s model=%s CHANGED=%s",
             m, tostring(linked), tostring(valid), tostring(useless),
             tostring(errMethod), tostring(afterMethod), tostring(afterMethod == m),
             tostring(okRaw), tostring(errRaw), tostring(afterRaw), tostring(afterRaw == m)))
     end
 
     target:SetModel(original)
-    print("[SoulTransfer][Test] Modelo restaurado: " .. tostring(target:GetModel()))
+    print("[SoulTransfer][Test] Model restored: " .. tostring(target:GetModel()))
 end)

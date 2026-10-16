@@ -9,7 +9,7 @@ util.AddNetworkString("SoulTransfer_Cancel")
 function SoulTransfer.CancelSpectral(ply)
     if not IsValid(ply) then return end
 
-    SoulTransfer.Appearance.Log(ply, "CancelSpectral chamado (voltando ao estado de morte padrao).")
+    SoulTransfer.Appearance.Log(ply, "CancelSpectral called (reverting to normal death state).")
 
     local timerName = "ST_Timeout_" .. ply:SteamID64()
     if timer.Exists(timerName) then
@@ -55,7 +55,7 @@ hook.Add("PlayerDeath", "SoulTransfer_OnPlayerDeath", function(victim, inflictor
 
     local hosts = SoulTransfer.Targeting.GetNearbyHosts(deathPos, range, victim)
     if #hosts == 0 then
-        victim:ChatPrint("[Soul Transfer] Nenhum NPC no alcance (" .. math.floor(range) .. "u). Spawne um NPC para possuir.")
+        victim:ChatPrint(SoulTransfer.T("msg_no_npcs", math.floor(range)))
         return
     end
 
@@ -69,7 +69,7 @@ hook.Add("PlayerDeath", "SoulTransfer_OnPlayerDeath", function(victim, inflictor
         end
     end
 
-    victim:ChatPrint(string.format("[Soul Transfer] %d hospedeiro(s) no alcance. Mirar e clicar para transferir.", #hosts))
+    victim:ChatPrint(SoulTransfer.T("msg_hosts_in_range", #hosts))
 
     local timeLimit = GetConVar("soultransfer_time_limit"):GetFloat()
 
@@ -138,11 +138,11 @@ net.Receive("SoulTransfer_RequestPossess", function(len, ply)
     local range = GetConVar("soultransfer_range"):GetFloat()
 
     if not SoulTransfer.Targeting.ValidateTarget(targetNPC, ply, range) then
-        SoulTransfer.Appearance.Log(ply, "Pedido de possessao rejeitado: alvo invalido (%s).", tostring(targetNPC))
+        SoulTransfer.Appearance.Log(ply, "Possession request rejected: invalid target (%s).", tostring(targetNPC))
         return
     end
 
-    SoulTransfer.Appearance.Log(ply, "Pedido de possessao aceito: alvo=%s.", tostring(targetNPC))
+    SoulTransfer.Appearance.Log(ply, "Possession request accepted: target=%s.", tostring(targetNPC))
 
     ply.ST_IsTransferring = true
     ply.ST_SelectedTarget = targetNPC
