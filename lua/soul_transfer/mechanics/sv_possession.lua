@@ -13,6 +13,11 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
         return false
     end
 
+    if not ply.ST_HostPlayermodel then
+        SoulTransfer.Appearance.Log(ply, "Sem playermodel vinculado para %s; aparencia do jogador mantida.", npc:GetModel())
+        ply:ChatPrint("[Soul Transfer] Nenhum playermodel equivalente a este NPC; sua aparencia foi mantida.")
+    end
+
     local hostPos = npc:GetPos()
     local hostEyeAng = npc:EyeAngles()
     local hostHealth = npc:Health()
@@ -52,8 +57,8 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
     local applied = SoulTransfer.Appearance.Apply(ply)
     ply:SetupHands()
 
-    SoulTransfer.Appearance.Log(ply, "Apply apos Spawn: sucesso=%s model=%s skin=%d",
-        tostring(applied), tostring(ply:GetModel()), ply:GetSkin())
+    SoulTransfer.Appearance.Log(ply, "Apply apos Spawn: sucesso=%s model=%s skin=%d playermodel=%s",
+        tostring(applied), tostring(ply:GetModel()), ply:GetSkin(), tostring(ply.ST_HostPlayermodel))
 
     ply:SetNoDraw(false)
     ply:SetNotSolid(false)
@@ -100,9 +105,10 @@ function SoulTransfer.Possession.TransferSoul(ply, npc)
     timer.Simple(0.1, function()
         if not IsValid(ply) or not ply.ST_HostModel or not ply:Alive() then return end
 
-        if ply:GetModel() ~= ply.ST_HostModel or ply:GetSkin() ~= (ply.ST_HostSkin or 0) then
-            SoulTransfer.Appearance.Log(ply, "Verificacao 0.1s: aparencia divergiu (model=%s skin=%d); reaplicando corpo do hospedeiro.",
-                tostring(ply:GetModel()), ply:GetSkin())
+        local pm = ply.ST_HostPlayermodel
+        if pm and (ply:GetModel() ~= pm or (ply.ST_HostExact and ply:GetSkin() ~= (ply.ST_HostSkin or 0))) then
+            SoulTransfer.Appearance.Log(ply, "Verificacao 0.1s: aparencia divergiu (model=%s skin=%d, esperado=%s); reaplicando corpo do hospedeiro.",
+                tostring(ply:GetModel()), ply:GetSkin(), pm)
             SoulTransfer.Appearance.Apply(ply)
             ply:SetupHands()
         end
