@@ -9,6 +9,8 @@ util.AddNetworkString("SoulTransfer_Cancel")
 function SoulTransfer.CancelSpectral(ply)
     if not IsValid(ply) then return end
 
+    SoulTransfer.Appearance.Log(ply, "CancelSpectral chamado (voltando ao estado de morte padrao).")
+
     local timerName = "ST_Timeout_" .. ply:SteamID64()
     if timer.Exists(timerName) then
         timer.Remove(timerName)
@@ -26,6 +28,9 @@ function SoulTransfer.CancelSpectral(ply)
     ply:SetNWBool("ST_IsTransferring", false)
     ply:SetNWEntity("ST_TargetEntity", NULL)
 
+    ply.NextSpawnTime = nil
+    SoulTransfer.Appearance.ClearHost(ply, true)
+
     if game.SinglePlayer() then
         game.SetTimeScale(1.0)
         RunConsoleCommand("host_timescale", "1")
@@ -38,9 +43,12 @@ function SoulTransfer.CancelSpectral(ply)
 end
 
 hook.Add("PlayerDeath", "SoulTransfer_OnPlayerDeath", function(victim, inflictor, attacker)
+    if not IsValid(victim) or not victim:IsPlayer() then return end
+
+    SoulTransfer.Appearance.ClearHost(victim, true)
+
     local cv_enabled = GetConVar("soultransfer_enabled")
     if not cv_enabled or not cv_enabled:GetBool() then return end
-    if not IsValid(victim) or not victim:IsPlayer() then return end
 
     local range = GetConVar("soultransfer_range"):GetFloat()
     local deathPos = victim:GetPos()
@@ -111,7 +119,8 @@ hook.Add("PlayerDeath", "SoulTransfer_OnPlayerDeath", function(victim, inflictor
 end)
 
 hook.Add("PlayerDeathThink", "SoulTransfer_PreventInstantRespawn", function(ply)
-    if ply.ST_IsSpectral then
+    if ply.ST_IsSpectral or ply.ST_IsTransferring then
+        ply.NextSpawnTime = CurTime() + 3600
         return false
     end
 end)
@@ -129,8 +138,11 @@ net.Receive("SoulTransfer_RequestPossess", function(len, ply)
     local range = GetConVar("soultransfer_range"):GetFloat()
 
     if not SoulTransfer.Targeting.ValidateTarget(targetNPC, ply, range) then
+        SoulTransfer.Appearance.Log(ply, "Pedido de possessao rejeitado: alvo invalido (%s).", tostring(targetNPC))
         return
     end
+
+    SoulTransfer.Appearance.Log(ply, "Pedido de possessao aceito: alvo=%s.", tostring(targetNPC))
 
     ply.ST_IsTransferring = true
     ply.ST_SelectedTarget = targetNPC
